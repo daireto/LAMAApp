@@ -1,0 +1,270 @@
+@page "/miembros/detalle/{Id:int}"
+@using LAMAFrontend.Models
+@using LAMAFrontend.Services
+@inject IMiembroService MiembroService
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+
+<PageTitle>Detalle del Miembro</PageTitle>
+
+<h1>Detalle del Miembro</h1>
+
+@if (isLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+}
+else if (miembro == null)
+{
+    <div class="alert alert-danger">
+        No se encontró el miembro solicitado.
+    </div>
+    <button class="btn btn-secondary" @onclick="VolverALista">
+        Volver a la lista
+    </button>
+}
+else
+{
+    <div class="mb-3">
+        <button class="btn btn-secondary" @onclick="VolverALista">
+            <i class="bi bi-arrow-left"></i> Volver a la lista
+        </button>
+        <button class="btn btn-warning" @onclick="EditarMiembroActual">
+            <i class="bi bi-pencil"></i> Editar
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">
+                    <h4>@miembro.Nombre @miembro.Apellido</h4>
+                    <p class="mb-0">Member #@miembro.Member</p>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <span class="badge bg-@GetRangoBadgeColor(miembro.Rango) fs-6">@miembro.Rango</span>
+                            <span class="badge bg-@GetEstatusBadgeColor(miembro.Estatus) fs-6 ms-2">@miembro.Estatus</span>
+                            @if (!string.IsNullOrEmpty(miembro.Cargo))
+                            {
+                                <span class="badge bg-info fs-6 ms-2">@miembro.Cargo</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5><i class="bi bi-person"></i> Información Personal</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong>Cédula:</strong>
+                            <p>@miembro.Cedula</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Fecha de Nacimiento:</strong>
+                            <p>@miembro.FechaNacimiento.ToString("dd/MM/yyyy")</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong>Celular:</strong>
+                            <p>@miembro.Celular</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Ciudad:</strong>
+                            <p>@miembro.Ciudad</p>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(miembro.CorreoElectronico))
+                    {
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <strong>Correo Electrónico:</strong>
+                                <p>@miembro.CorreoElectronico</p>
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(miembro.Direccion))
+                    {
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <strong>Dirección:</strong>
+                                <p>@miembro.Direccion</p>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(miembro.RH))
+                        {
+                            <div class="col-md-4 mb-3">
+                                <strong>Tipo de Sangre (RH):</strong>
+                                <p>@miembro.RH</p>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(miembro.EPS))
+                        {
+                            <div class="col-md-4 mb-3">
+                                <strong>EPS:</strong>
+                                <p>@miembro.EPS</p>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(miembro.ContactoEmergencia))
+                        {
+                            <div class="col-md-4 mb-3">
+                                <strong>Contacto de Emergencia:</strong>
+                                <p>@miembro.ContactoEmergencia</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5><i class="bi bi-shield"></i> Información del Club</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong>Fecha de Ingreso:</strong>
+                            <p>@miembro.FechaIngreso.ToString("dd/MM/yyyy")</p>
+                        </div>
+                        @if (!string.IsNullOrEmpty(miembro.Padrino))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <strong>Padrino:</strong>
+                                <p>@miembro.Padrino</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5><i class="bi bi-bicycle"></i> Información de la Moto</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong>Modelo:</strong>
+                            <p>@miembro.Moto</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Marca:</strong>
+                            <p>@miembro.Marca</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <strong>Placa/Matrícula:</strong>
+                            <p>@miembro.PlacaMatricula</p>
+                        </div>
+                        @if (miembro.AnoModelo.HasValue)
+                        {
+                            <div class="col-md-4 mb-3">
+                                <strong>Año/Modelo:</strong>
+                                <p>@miembro.AnoModelo</p>
+                            </div>
+                        }
+                        @if (miembro.CilindrajeCC.HasValue)
+                        {
+                            <div class="col-md-4 mb-3">
+                                <strong>Cilindraje:</strong>
+                                <p>@miembro.CilindrajeCC CC</p>
+                            </div>
+                        }
+                    </div>
+                    @if (miembro.FechaExpedicionLicenciaConduccion.HasValue || miembro.FechaExpedicionSOAT.HasValue)
+                    {
+                        <div class="row">
+                            @if (miembro.FechaExpedicionLicenciaConduccion.HasValue)
+                            {
+                                <div class="col-md-6 mb-3">
+                                    <strong>Fecha Expedición Licencia:</strong>
+                                    <p>@miembro.FechaExpedicionLicenciaConduccion.Value.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            }
+                            @if (miembro.FechaExpedicionSOAT.HasValue)
+                            {
+                                <div class="col-md-6 mb-3">
+                                    <strong>Fecha Expedición SOAT:</strong>
+                                    <p>@miembro.FechaExpedicionSOAT.Value.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private MiembroDto? miembro;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarMiembro();
+    }
+
+    private async Task CargarMiembro()
+    {
+        try
+        {
+            isLoading = true;
+            miembro = await MiembroService.GetMiembroByIdAsync(Id);
+        }
+        catch (Exception)
+        {
+            // Error handling is done in the UI
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void VolverALista()
+    {
+        NavigationManager.NavigateTo("/miembros");
+    }
+
+    private void EditarMiembroActual()
+    {
+        NavigationManager.NavigateTo($"/miembros/editar/{miembro!.Id}");
+    }
+
+    private string GetRangoBadgeColor(string rango)
+    {
+        return rango switch
+        {
+            "Admin" => "danger",
+            "Standard" => "primary",
+            _ => "secondary"
+        };
+    }
+
+    private string GetEstatusBadgeColor(string estatus)
+    {
+        return estatus switch
+        {
+            "Activo" => "success",
+            "Inactivo" => "secondary",
+            "Suspendido" => "danger",
+            _ => "secondary"
+        };
+    }
+}

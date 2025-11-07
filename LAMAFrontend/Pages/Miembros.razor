@@ -1,0 +1,289 @@
+@page "/miembros"
+@using LAMAFrontend.Models
+@using LAMAFrontend.Services
+@inject IMiembroService MiembroService
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+
+<PageTitle>Miembros</PageTitle>
+
+<h1>Gestión de Miembros</h1>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="CrearNuevoMiembro">
+        <i class="bi bi-plus-circle"></i> Nuevo Miembro
+    </button>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+else
+{
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Filtrar por Estatus:</label>
+            <select class="form-select" @onchange="FiltrarPorEstatus">
+                <option value="">Todos</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+                <option value="Suspendido">Suspendido</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Filtrar por Rango:</label>
+            <select class="form-select" @onchange="FiltrarPorRango">
+                <option value="">Todos</option>
+                <option value="Admin">Admin</option>
+                <option value="Standard">Standard</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Member #</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Rango</th>
+                    <th>Estatus</th>
+                    <th>Ciudad</th>
+                    <th>Celular</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var miembro in miembros)
+                {
+                    <tr>
+                        <td>@miembro.Member</td>
+                        <td>@miembro.Nombre</td>
+                        <td>@miembro.Apellido</td>
+                        <td>
+                            <span class="badge bg-@GetRangoBadgeColor(miembro.Rango)">
+                                @miembro.Rango
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-@GetEstatusBadgeColor(miembro.Estatus)">
+                                @miembro.Estatus
+                            </span>
+                        </td>
+                        <td>@miembro.Ciudad</td>
+                        <td>@miembro.Celular</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" @onclick="() => VerDetalle(miembro.Id)">
+                                <i class="bi bi-eye"></i> Ver
+                            </button>
+                            <button class="btn btn-sm btn-warning" @onclick="() => EditarMiembro(miembro.Id)">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminacion(miembro.Id)">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!miembros.Any())
+    {
+        <div class="alert alert-info">
+            No se encontraron miembros.
+        </div>
+    }
+}
+
+<!-- Modal de confirmación de eliminación -->
+@if (showDeleteModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarEliminacion"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar este miembro?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelarEliminacion">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="EliminarMiembro">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<MiembroDto> miembros = new();
+    private bool isLoading = true;
+    private string? errorMessage;
+    private bool showDeleteModal = false;
+    private int miembroIdToDelete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarMiembros();
+    }
+
+    private async Task CargarMiembros()
+    {
+        try
+        {
+            isLoading = true;
+            errorMessage = null;
+            var result = await MiembroService.GetAllMiembrosAsync();
+            miembros = result.ToList();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar los miembros: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task FiltrarPorEstatus(ChangeEventArgs e)
+    {
+        var estatus = e.Value?.ToString();
+        if (string.IsNullOrEmpty(estatus))
+        {
+            await CargarMiembros();
+        }
+        else
+        {
+            try
+            {
+                isLoading = true;
+                var result = await MiembroService.GetMiembrosByEstatusAsync(estatus);
+                miembros = result.ToList();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Error al filtrar por estatus: {ex.Message}";
+            }
+            finally
+            {
+                isLoading = false;
+            }
+        }
+    }
+
+    private async Task FiltrarPorRango(ChangeEventArgs e)
+    {
+        var rango = e.Value?.ToString();
+        if (string.IsNullOrEmpty(rango))
+        {
+            await CargarMiembros();
+        }
+        else
+        {
+            try
+            {
+                isLoading = true;
+                var result = await MiembroService.GetMiembrosByRangoAsync(rango);
+                miembros = result.ToList();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Error al filtrar por rango: {ex.Message}";
+            }
+            finally
+            {
+                isLoading = false;
+            }
+        }
+    }
+
+    private void CrearNuevoMiembro()
+    {
+        NavigationManager.NavigateTo("/miembros/crear");
+    }
+
+    private void VerDetalle(int id)
+    {
+        NavigationManager.NavigateTo($"/miembros/detalle/{id}");
+    }
+
+    private void EditarMiembro(int id)
+    {
+        NavigationManager.NavigateTo($"/miembros/editar/{id}");
+    }
+
+    private void ConfirmarEliminacion(int id)
+    {
+        miembroIdToDelete = id;
+        showDeleteModal = true;
+    }
+
+    private void CancelarEliminacion()
+    {
+        showDeleteModal = false;
+        miembroIdToDelete = 0;
+    }
+
+    private async Task EliminarMiembro()
+    {
+        try
+        {
+            var result = await MiembroService.DeleteMiembroAsync(miembroIdToDelete);
+            if (result)
+            {
+                await CargarMiembros();
+            }
+            else
+            {
+                errorMessage = "No se pudo eliminar el miembro.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar el miembro: {ex.Message}";
+        }
+        finally
+        {
+            showDeleteModal = false;
+            miembroIdToDelete = 0;
+        }
+    }
+
+    private string GetRangoBadgeColor(string rango)
+    {
+        return rango switch
+        {
+            "Admin" => "danger",
+            "Standard" => "primary",
+            _ => "secondary"
+        };
+    }
+
+    private string GetEstatusBadgeColor(string estatus)
+    {
+        return estatus switch
+        {
+            "Activo" => "success",
+            "Inactivo" => "secondary",
+            "Suspendido" => "danger",
+            _ => "secondary"
+        };
+    }
+}

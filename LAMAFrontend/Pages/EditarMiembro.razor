@@ -1,0 +1,329 @@
+@page "/miembros/editar/{Id:int}"
+@using LAMAFrontend.Models
+@using LAMAFrontend.Services
+@inject IMiembroService MiembroService
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+
+<PageTitle>Editar Miembro</PageTitle>
+
+<h1>Editar Miembro</h1>
+
+@if (isLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+}
+else if (miembroEdit == null)
+{
+    <div class="alert alert-danger">
+        No se encontró el miembro solicitado.
+    </div>
+    <button class="btn btn-secondary" @onclick="VolverALista">
+        Volver a la lista
+    </button>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-10">
+            <EditForm Model="@miembroEdit" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+
+                @if (errorMessage != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @errorMessage
+                    </div>
+                }
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Información Personal</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombre *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Nombre" />
+                                <ValidationMessage For="@(() => miembroEdit.Nombre)" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Apellido *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Apellido" />
+                                <ValidationMessage For="@(() => miembroEdit.Apellido)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cédula *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Cedula" />
+                                <ValidationMessage For="@(() => miembroEdit.Cedula)" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha de Nacimiento *</label>
+                                <InputDate class="form-control" @bind-Value="miembroEdit.FechaNacimiento" />
+                                <ValidationMessage For="@(() => miembroEdit.FechaNacimiento)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Celular *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Celular" />
+                                <ValidationMessage For="@(() => miembroEdit.Celular)" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ciudad *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Ciudad" />
+                                <ValidationMessage For="@(() => miembroEdit.Ciudad)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Correo Electrónico</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.CorreoElectronico" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Dirección</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Direccion" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Tipo de Sangre (RH)</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.RH" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">EPS</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.EPS" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Contacto de Emergencia</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.ContactoEmergencia" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Información del Club</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Número de Member *</label>
+                                <InputNumber class="form-control" @bind-Value="miembroEdit.Member" />
+                                <ValidationMessage For="@(() => miembroEdit.Member)" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Fecha de Ingreso *</label>
+                                <InputDate class="form-control" @bind-Value="miembroEdit.FechaIngreso" />
+                                <ValidationMessage For="@(() => miembroEdit.FechaIngreso)" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Padrino</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Padrino" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Rango *</label>
+                                <InputSelect class="form-select" @bind-Value="miembroEdit.Rango">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Standard">Standard</option>
+                                </InputSelect>
+                                <ValidationMessage For="@(() => miembroEdit.Rango)" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Estatus *</label>
+                                <InputSelect class="form-select" @bind-Value="miembroEdit.Estatus">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                    <option value="Suspendido">Suspendido</option>
+                                </InputSelect>
+                                <ValidationMessage For="@(() => miembroEdit.Estatus)" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Cargo</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Cargo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Información de la Moto</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Modelo/Nombre de la Moto *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Moto" />
+                                <ValidationMessage For="@(() => miembroEdit.Moto)" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Marca *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.Marca" />
+                                <ValidationMessage For="@(() => miembroEdit.Marca)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Placa/Matrícula *</label>
+                                <InputText class="form-control" @bind-Value="miembroEdit.PlacaMatricula" />
+                                <ValidationMessage For="@(() => miembroEdit.PlacaMatricula)" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Año/Modelo</label>
+                                <InputNumber class="form-control" @bind-Value="miembroEdit.AnoModelo" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Cilindraje (CC)</label>
+                                <InputNumber class="form-control" @bind-Value="miembroEdit.CilindrajeCC" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha Expedición Licencia</label>
+                                <InputDate class="form-control" @bind-Value="miembroEdit.FechaExpedicionLicenciaConduccion" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha Expedición SOAT</label>
+                                <InputDate class="form-control" @bind-Value="miembroEdit.FechaExpedicionSOAT" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                        @if (isSubmitting)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            <span>Guardando...</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-save"></i>
+                            <span> Guardar Cambios</span>
+                        }
+                    </button>
+                    <button type="button" class="btn btn-secondary ms-2" @onclick="Cancelar">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private UpdateMiembroDto? miembroEdit;
+    private bool isLoading = true;
+    private bool isSubmitting = false;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarMiembro();
+    }
+
+    private async Task CargarMiembro()
+    {
+        try
+        {
+            isLoading = true;
+            var miembro = await MiembroService.GetMiembroByIdAsync(Id);
+            
+            if (miembro != null)
+            {
+                miembroEdit = new UpdateMiembroDto
+                {
+                    Id = miembro.Id,
+                    Nombre = miembro.Nombre,
+                    Apellido = miembro.Apellido,
+                    Cedula = miembro.Cedula,
+                    FechaNacimiento = miembro.FechaNacimiento,
+                    Celular = miembro.Celular,
+                    Ciudad = miembro.Ciudad,
+                    CorreoElectronico = miembro.CorreoElectronico,
+                    Direccion = miembro.Direccion,
+                    RH = miembro.RH,
+                    EPS = miembro.EPS,
+                    Foto = miembro.Foto,
+                    ContactoEmergencia = miembro.ContactoEmergencia,
+                    Member = miembro.Member,
+                    FechaIngreso = miembro.FechaIngreso,
+                    Rango = miembro.Rango,
+                    Estatus = miembro.Estatus,
+                    Cargo = miembro.Cargo,
+                    Padrino = miembro.Padrino,
+                    Moto = miembro.Moto,
+                    Marca = miembro.Marca,
+                    PlacaMatricula = miembro.PlacaMatricula,
+                    AnoModelo = miembro.AnoModelo,
+                    CilindrajeCC = miembro.CilindrajeCC,
+                    FechaExpedicionLicenciaConduccion = miembro.FechaExpedicionLicenciaConduccion,
+                    FechaExpedicionSOAT = miembro.FechaExpedicionSOAT
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar el miembro: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (miembroEdit == null) return;
+
+        try
+        {
+            isSubmitting = true;
+            errorMessage = null;
+
+            var result = await MiembroService.UpdateMiembroAsync(miembroEdit);
+            if (result != null)
+            {
+                NavigationManager.NavigateTo("/miembros");
+            }
+            else
+            {
+                errorMessage = "No se pudo actualizar el miembro. Por favor, intente nuevamente.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al actualizar el miembro: {ex.Message}";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void VolverALista()
+    {
+        NavigationManager.NavigateTo("/miembros");
+    }
+
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("/miembros");
+    }
+}
