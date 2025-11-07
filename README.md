@@ -1,127 +1,122 @@
-# ??? LAMAApp - Sistema de Gestión de Miembros
+# LAMAApp - Sistema de GestiÃ³n de Miembros
 
 ![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)
 ![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-512BD4?logo=blazor)
 ![Azure AD](https://img.shields.io/badge/Auth-Azure%20AD-0078D4?logo=microsoft-azure)
 ![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-CC2927?logo=microsoft-sql-server)
 
-Sistema de gestión integral para el capítulo **L.A.M.A. Medellín**, diseñado para centralizar y administrar de forma segura la información de los miembros del club.
+Sistema de gestiÃ³n integral para el capÃ­tulo **L.A.M.A. MedellÃ­n**, diseÃ±ado para centralizar y administrar de forma segura la informaciÃ³n de los miembros del club.
 
 ---
 
-## ?? Tabla de Contenidos
+## Tabla de Contenidos
 
-- [Descripción del Proyecto](#-descripción-del-proyecto)
-- [Problema y Solución](#-problema-y-solución)
-- [Características Principales](#-características-principales)
-- [Tecnologías Utilizadas](#?-tecnologías-utilizadas)
+- [DescripciÃ³n del Proyecto](#-descripciÃ³n-del-proyecto)
+- [Problema y SoluciÃ³n](#-problema-y-soluciÃ³n)
+- [CaracterÃ­sticas Principales](#-caracterÃ­sticas-principales)
+- [TecnologÃ­as Utilizadas](#?-tecnologÃ­as-utilizadas)
 - [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
 - [Requisitos Previos](#-requisitos-previos)
-- [Configuración del Proyecto](#?-configuración-del-proyecto)
-- [Ejecución del Proyecto](#-ejecución-del-proyecto)
+- [ConfiguraciÃ³n del Proyecto](#?-configuraciÃ³n-del-proyecto)
+- [EjecuciÃ³n del Proyecto](#-ejecuciÃ³n-del-proyecto)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Roles y Permisos](#-roles-y-permisos)
-- [Configuración de Azure AD](#-configuración-de-azure-ad)
+- [ConfiguraciÃ³n de Azure AD](#-configuraciÃ³n-de-azure-ad)
 - [API Endpoints](#-api-endpoints)
 - [Contribuir](#-contribuir)
 - [Licencia](#-licencia)
 
 ---
 
-## ?? Descripción del Proyecto
+## DescripciÃ³n del Proyecto
 
-LAMAApp es una aplicación web moderna que permite al capítulo L.A.M.A. Medellín gestionar eficientemente la información de sus miembros, incluyendo datos personales, información del club, y detalles de las motocicletas.
+LAMAApp es una aplicaciÃ³n web moderna que permite al capÃ­tulo L.A.M.A. MedellÃ­n gestionar eficientemente la informaciÃ³n de sus miembros, incluyendo datos personales, informaciÃ³n del club, y detalles de las motocicletas.
 
-### ?? Usuarios del Sistema
+### Usuarios del Sistema
 
-- **Administradores**: Miembros con permisos completos para crear, editar y eliminar información
-- **Usuarios Standard**: Miembros con acceso de solo lectura para consultar información
+- **Administradores**: Miembros con permisos completos para crear, editar y eliminar informaciÃ³n
+- **Usuarios Standard**: Miembros con acceso de solo lectura para consultar informaciÃ³n
 
 ---
 
-## ?? Problema y Solución
+## Problema y SoluciÃ³n
 
 ### Problema
-- El capítulo L.A.M.A. Medellín necesitaba una forma eficiente y segura de gestionar la información de sus miembros
-- La información estaba dispersa y era difícil de acceder, dificultando la comunicación y toma de decisiones
-- No existía un sistema centralizado para almacenar datos importantes
+- El capÃ­tulo L.A.M.A. MedellÃ­n necesitaba una forma eficiente y segura de gestionar la informaciÃ³n de sus miembros
+- La informaciÃ³n estaba dispersa y era difÃ­cil de acceder, dificultando la comunicaciÃ³n y toma de decisiones
+- No existÃ­a un sistema centralizado para almacenar datos importantes
 
-### Solución
-- **Aplicación web centralizada** que permite almacenar, gestionar y acceder a la información de forma segura
-- **Autenticación robusta** mediante Azure AD (Microsoft Entra ID)
+### SoluciÃ³n
+- **AplicaciÃ³n web centralizada** que permite almacenar, gestionar y acceder a la informaciÃ³n de forma segura
+- **AutenticaciÃ³n robusta** mediante Azure AD (Microsoft Entra ID)
 - **Interfaz intuitiva** desarrollada con Blazor WebAssembly
-- **API REST segura** con autorización basada en roles
+- **API REST segura** con autorizaciÃ³n basada en roles
 - **Base de datos SQL Server** para almacenamiento confiable
 
 ### Beneficios
-? Mejora la eficiencia y productividad del capítulo  
-? Centraliza la información y facilita el acceso  
-? Mejora la comunicación entre miembros  
-? Fortalece la seguridad de la información  
-? Permite búsqueda y filtrado avanzado  
+? Mejora la eficiencia y productividad del capÃ­tulo  
+? Centraliza la informaciÃ³n y facilita el acceso  
+? Mejora la comunicaciÃ³n entre miembros  
+? Fortalece la seguridad de la informaciÃ³n  
+? Permite bÃºsqueda y filtrado avanzado  
 ? Genera informes sobre los miembros  
 
 ---
 
-## ? Características Principales
+## CaracterÃ­sticas Principales
 
-### Gestión de Miembros
-- ? **CRUD completo** de información de miembros
-- ?? **Búsqueda y filtrado** por rango, estatus, ciudad
-- ?? **Vista detallada** de cada miembro
-- ?? **Información personal**: Nombre, cédula, fecha de nacimiento, contacto
-- ??? **Información de motocicleta**: Marca, modelo, placa, cilindraje
-- ?? **Datos de emergencia**: Tipo de sangre, EPS, contacto de emergencia
+### GestiÃ³n de Miembros
+- **CRUD completo** de informaciÃ³n de miembros
+- **BÃºsqueda y filtrado** por rango, estatus, ciudad
+- **Vista detallada** de cada miembro
+- **InformaciÃ³n personal**: Nombre, cÃ©dula, fecha de nacimiento, contacto
+- **InformaciÃ³n de motocicleta**: Marca, modelo, placa, cilindraje
+- **Datos de emergencia**: Tipo de sangre, EPS, contacto de emergencia
 
 ### Seguridad
-- ?? **Autenticación Azure AD** (Microsoft Entra ID)
-- ?? **Autorización basada en roles** (Admin/Standard)
-- ??? **Tokens JWT** para comunicación segura
-- ?? **CORS configurado** para prevenir accesos no autorizados
+- **AutenticaciÃ³n Azure AD** (Microsoft Entra ID)
+- **AutorizaciÃ³n basada en roles** (Admin/Standard)
+- **Tokens JWT** para comunicaciÃ³n segura
+- **CORS configurado** para prevenir accesos no autorizados
 
 ### Interfaz de Usuario
-- ?? **Diseño moderno** con Bootstrap 5
-- ?? **Responsive** - funciona en móviles y tablets
-- ? **Carga rápida** con Blazor WebAssembly
-- ?? **Notificaciones** de éxito y error
-- ?? **Badges de estado** visual para rangos y estatus
+- **DiseÃ±o moderno** con Bootstrap 5
+- **Responsive** - funciona en mÃ³viles y tablets
+- **Carga rÃ¡pida** con Blazor WebAssembly
+- **Notificaciones** de Ã©xito y error
+- **Badges de estado** visual para rangos y estatus
 
 ---
 
-## ??? Tecnologías Utilizadas
+## TecnologÃ­as Utilizadas
 
 ### Frontend
-- **Blazor WebAssembly** - Framework de aplicación SPA
+- **Blazor WebAssembly** - Framework de aplicaciÃ³n SPA
 - **Bootstrap 5** - Framework CSS
-- **Bootstrap Icons** - Iconografía
+- **Bootstrap Icons** - IconografÃ­a
 
 ### Backend
 - **.NET 8** - Framework principal
 - **ASP.NET Core Web API** - API REST
 - **Entity Framework Core** - ORM
-- **Microsoft.Identity.Web** - Autenticación Azure AD
+- **Microsoft.Identity.Web** - AutenticaciÃ³n Azure AD
 
 ### Base de Datos
 - **SQL Server** - Base de datos relacional
 - **Azure SQL Database** - Hosting en la nube
 
-### Autenticación
+### AutenticaciÃ³n
 - **Azure AD (Microsoft Entra ID)** - Proveedor de identidad
-- **JWT Bearer Tokens** - Autenticación de API
+- **JWT Bearer Tokens** - AutenticaciÃ³n de API
 
 ---
 
-## ??? Arquitectura del Proyecto
+## Arquitectura del Proyecto
 
-El proyecto sigue una **arquitectura limpia (Clean Architecture)** con separación de responsabilidades:
+El proyecto sigue una **arquitectura limpia (Clean Architecture)** con separaciÃ³n de responsabilidades:
 
 ```
-LAMAApp/
-??? LAMAApp.Domain/          # Entidades y reglas de negocio
-??? LAMAApp.Application/     # Lógica de aplicación y DTOs
-??? LAMAApp.Infrastructure/  # Acceso a datos y servicios externos
-??? LAMAApp/                 # API REST (Backend)
-??? LAMAFrontend/            # Blazor WebAssembly (Frontend)
+LAMAApp/ LAMAApp.Domain/          # Entidades y reglas de negocio LAMAApp.Application/     # LÃ³gica de aplicaciÃ³n y DTOs LAMAApp.Infrastructure/  # Acceso a datos y servicios externos LAMAApp/                 # API REST (Backend) LAMAFrontend/            # Blazor WebAssembly (Frontend)
 ```
 
 ### Flujo de Datos
@@ -132,9 +127,9 @@ Usuario ? Blazor WebAssembly ? API REST ? Application Layer ? Infrastructure ? D
 
 ---
 
-## ?? Requisitos Previos
+## Requisitos Previos
 
-Antes de comenzar, asegúrate de tener instalado:
+Antes de comenzar, asegÃºrate de tener instalado:
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) o [Visual Studio Code](https://code.visualstudio.com/)
@@ -144,7 +139,7 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ---
 
-## ?? Configuración del Proyecto
+## ConfiguraciÃ³n del Proyecto
 
 ### 1. Clonar el Repositorio
 
@@ -155,7 +150,7 @@ cd LAMAApp
 
 ### 2. Configurar la Base de Datos
 
-#### Actualizar la Cadena de Conexión
+#### Actualizar la Cadena de ConexiÃ³n
 
 Edita el archivo `LAMAApp/appsettings.json`:
 
@@ -217,18 +212,18 @@ dotnet restore
 
 ---
 
-## ?? Ejecución del Proyecto
+## EjecuciÃ³n del Proyecto
 
-### Opción 1: Visual Studio 2022
+### OpciÃ³n 1: Visual Studio 2022
 
-1. Abre la solución `LAMAApp.sln`
-2. Configura **múltiples proyectos de inicio**:
-   - Click derecho en la solución ? **Propiedades**
-   - **Proyectos de inicio múltiples**
+1. Abre la soluciÃ³n `LAMAApp.sln`
+2. Configura **mÃºltiples proyectos de inicio**:
+   - Click derecho en la soluciÃ³n ? **Propiedades**
+   - **Proyectos de inicio mÃºltiples**
    - Selecciona **LAMAApp** y **LAMAFrontend** como "Iniciar"
 3. Presiona `F5` para iniciar en modo debug
 
-### Opción 2: Línea de Comandos
+### OpciÃ³n 2: LÃ­nea de Comandos
 
 #### Terminal 1 - Backend API
 ```bash
@@ -250,78 +245,73 @@ dotnet run
 
 ---
 
-## ?? Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 LAMAApp/
-?
-??? LAMAApp.Domain/                  # Capa de Dominio
-?   ??? Entities/
-?   ?   ??? Miembro.cs              # Entidad principal
-?   ??? Repositories/
-?       ??? IMiembroRepository.cs    # Interfaz del repositorio
-?
-??? LAMAApp.Application/             # Capa de Aplicación
-?   ??? DTOs/
-?   ?   ??? MiembroDto.cs           # DTO de lectura
-?   ?   ??? CreateMiembroDto.cs     # DTO de creación
-?   ?   ??? UpdateMiembroDto.cs     # DTO de actualización
-?   ??? Services/
-?       ??? IMiembroService.cs      # Interfaz del servicio
-?       ??? MiembroService.cs       # Lógica de negocio
-?
-??? LAMAApp.Infrastructure/          # Capa de Infraestructura
-?   ??? Data/
-?   ?   ??? LAMAAppDbContext.cs     # Contexto de EF Core
-?   ??? Repositories/
-?   ?   ??? MiembroRepository.cs    # Implementación del repositorio
-?   ??? Migrations/                  # Migraciones de base de datos
-?
-??? LAMAApp/                         # API REST (Backend)
-?   ??? Controllers/
-?   ?   ??? MiembrosController.cs   # Controlador de API
-?   ??? Program.cs                   # Configuración de la aplicación
-?   ??? appsettings.json            # Configuración (Azure AD, DB)
-?
-??? LAMAFrontend/                    # Blazor WebAssembly (Frontend)
-    ??? Pages/
-    ?   ??? Miembros.razor          # Lista de miembros
-    ?   ??? DetalleMiembro.razor    # Detalle de miembro
-    ?   ??? CrearMiembro.razor      # Formulario de creación
-    ?   ??? EditarMiembro.razor     # Formulario de edición
-    ??? Services/
-    ?   ??? IMiembroService.cs      # Interfaz del servicio
-    ?   ??? MiembroService.cs       # Servicio HTTP
-    ??? Models/
-    ?   ??? MiembroDto.cs           # Modelos del frontend
-    ??? Program.cs                   # Configuración de Blazor WASM
+? LAMAApp.Domain/                  # Capa de Dominio
+?   Entities/
+?   ?   Miembro.cs              # Entidad principal
+?   Repositories/
+?       IMiembroRepository.cs    # Interfaz del repositorio
+? LAMAApp.Application/             # Capa de AplicaciÃ³n
+?   DTOs/
+?   ?   MiembroDto.cs           # DTO de lectura
+?   ?   CreateMiembroDto.cs     # DTO de creaciÃ³n
+?   ?   UpdateMiembroDto.cs     # DTO de actualizaciÃ³n
+?   Services/
+?       IMiembroService.cs      # Interfaz del servicio
+?       MiembroService.cs       # LÃ³gica de negocio
+? LAMAApp.Infrastructure/          # Capa de Infraestructura
+?   Data/
+?   ?   LAMAAppDbContext.cs     # Contexto de EF Core
+?   Repositories/
+?   ?   MiembroRepository.cs    # ImplementaciÃ³n del repositorio
+?   Migrations/                  # Migraciones de base de datos
+? LAMAApp/                         # API REST (Backend)
+?   Controllers/
+?   ?   MiembrosController.cs   # Controlador de API
+?   Program.cs                   # ConfiguraciÃ³n de la aplicaciÃ³n
+?   appsettings.json            # ConfiguraciÃ³n (Azure AD, DB)
+? LAMAFrontend/                    # Blazor WebAssembly (Frontend)
+   Pages/
+    ?   Miembros.razor          # Lista de miembros
+    ?   DetalleMiembro.razor    # Detalle de miembro
+    ?   CrearMiembro.razor      # Formulario de creaciÃ³n
+    ?   EditarMiembro.razor     # Formulario de ediciÃ³n
+   Services/
+    ?   IMiembroService.cs      # Interfaz del servicio
+    ?   MiembroService.cs       # Servicio HTTP
+   Models/
+    ?   MiembroDto.cs           # Modelos del frontend
+   Program.cs                   # ConfiguraciÃ³n de Blazor WASM
 ```
 
 ---
 
-## ?? Roles y Permisos
+## Roles y Permisos
 
-El sistema implementa **autorización basada en roles**:
+El sistema implementa **autorizaciÃ³n basada en roles**:
 
 ### Rol: Admin
-- ? Ver lista de miembros
-- ? Ver detalles de miembros
-- ? Filtrar por rango/estatus
-- ? **Crear** nuevos miembros
-- ? **Editar** miembros existentes
-- ? **Eliminar** miembros
+- Ver lista de miembros
+- Ver detalles de miembros
+- Filtrar por rango/estatus
+- **Crear** nuevos miembros
+- **Editar** miembros existentes
+- **Eliminar** miembros
 
 ### Rol: Standard
-- ? Ver lista de miembros
-- ? Ver detalles de miembros
-- ? Filtrar por rango/estatus
-- ? Crear nuevos miembros
-- ? Editar miembros existentes
-- ? Eliminar miembros
+- Ver lista de miembros
+- Ver detalles de miembros
+- Filtrar por rango/estatus
+- Crear nuevos miembros
+- Editar miembros existentes
+- Eliminar miembros
 
 ---
 
-## ?? Configuración de Azure AD
+## ConfiguraciÃ³n de Azure AD
 
 ### 1. Crear App Registration para la API
 
@@ -333,7 +323,7 @@ El sistema implementa **autorización basada en roles**:
 
 ### 2. Configurar App Roles
 
-En la aplicación de API:
+En la aplicaciÃ³n de API:
 1. Ve a **App roles** ? **Create app role**
 2. Crea los siguientes roles:
 
@@ -384,10 +374,10 @@ En la aplicación de API:
 
 ---
 
-## ?? API Endpoints
+## API Endpoints
 
-### Autenticación
-Todos los endpoints requieren un **Bearer Token JWT** válido.
+### AutenticaciÃ³n
+Todos los endpoints requieren un **Bearer Token JWT** vÃ¡lido.
 
 ### Miembros
 
@@ -400,7 +390,7 @@ Obtiene todos los miembros (Admin y Standard)
   {
     "id": 1,
     "nombre": "Juan",
-    "apellido": "Pérez",
+    "apellido": "PÃ©rez",
     "rango": "Admin",
     "estatus": "Activo",
     "member": 1001,
@@ -425,11 +415,11 @@ Crea un nuevo miembro (Solo Admin)
 ```json
 {
   "nombre": "Juan",
-  "apellido": "Pérez",
+  "apellido": "PÃ©rez",
   "cedula": "1234567890",
   "fechaNacimiento": "1990-01-01",
   "celular": "3001234567",
-  "ciudad": "Medellín",
+  "ciudad": "MedellÃ­n",
   "member": 1001,
   "rango": "Standard",
   "estatus": "Activo",
@@ -448,7 +438,7 @@ Elimina un miembro (Solo Admin)
 
 ---
 
-## ?? Testing
+## Testing
 
 ### Ejecutar Tests (Futuro)
 ```bash
@@ -463,29 +453,29 @@ dotnet test
 
 ---
 
-## ?? Troubleshooting
+## Troubleshooting
 
 ### Error: "Audience validation failed"
 - Verifica que `Audience` en `appsettings.json` coincida con el ClientId de la API
-- En desarrollo, `ValidateAudience` está deshabilitado
+- En desarrollo, `ValidateAudience` estÃ¡ deshabilitado
 
 ### Error: "Authorization failed"
 - Verifica que el usuario tenga un rol asignado (Admin o Standard) en Azure AD
 - Revisa los claims del token en los logs del backend
 
-### Error de conexión a la base de datos
-- Verifica la cadena de conexión en `appsettings.json`
-- Asegúrate de que SQL Server esté ejecutándose
-- Verifica que las migraciones estén aplicadas
+### Error de conexiÃ³n a la base de datos
+- Verifica la cadena de conexiÃ³n en `appsettings.json`
+- AsegÃºrate de que SQL Server estÃ© ejecutÃ¡ndose
+- Verifica que las migraciones estÃ©n aplicadas
 
 ### El frontend no puede conectarse al backend
-- Verifica que ambos proyectos estén ejecutándose
-- Revisa la configuración de CORS en `Program.cs`
+- Verifica que ambos proyectos estÃ©n ejecutÃ¡ndose
+- Revisa la configuraciÃ³n de CORS en `Program.cs`
 - Verifica que `Api:BaseUrl` en el frontend apunte a la URL correcta
 
 ---
 
-## ????? Contribuir
+# Contribuir
 
 Las contribuciones son bienvenidas. Por favor:
 
@@ -497,26 +487,26 @@ Las contribuciones son bienvenidas. Por favor:
 
 ---
 
-## ?? Licencia
+## Licencia
 
-Este proyecto es privado y pertenece al capítulo L.A.M.A. Medellín.
+Este proyecto es privado y pertenece al capÃ­tulo L.A.M.A. MedellÃ­n.
 
 ---
 
-## ?? Contacto
+## Contacto
 
-**L.A.M.A. Medellín**
+**L.A.M.A. MedellÃ­n**
 - GitHub: [@daireto](https://github.com/daireto)
 - Repositorio: [LAMAApp](https://github.com/daireto/LAMAApp)
 
 ---
 
-## ?? Agradecimientos
+## Agradecimientos
 
-- Capítulo L.A.M.A. Medellín por la oportunidad
+- CapÃ­tulo L.A.M.A. MedellÃ­n por la oportunidad
 - Microsoft por las herramientas de desarrollo
 - Comunidad de .NET y Blazor
 
 ---
 
-**Desarrollado con ?? para L.A.M.A. Medellín** ???
+**Desarrollado con para L.A.M.A. MedellÃ­n**
