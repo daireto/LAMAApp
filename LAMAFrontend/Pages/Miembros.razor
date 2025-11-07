@@ -45,8 +45,11 @@ else
             <label class="form-label">Filtrar por Rango:</label>
             <select class="form-select" @onchange="FiltrarPorRango">
                 <option value="">Todos</option>
-                <option value="Admin">Admin</option>
-                <option value="Standard">Standard</option>
+                <option value="Prospect">Prospect</option>
+                <option value="Hangaround">Hangaround</option>
+                <option value="Probation">Probation</option>
+                <option value="Full Color">Full Color</option>
+                <option value="Rockets">Rockets</option>
             </select>
         </div>
     </div>
@@ -270,8 +273,12 @@ else
     {
         return rango switch
         {
-            "Admin" => "danger",
-            "Standard" => "primary",
+            "Prospect" => "secondary",
+            "Hangaround" => "info",
+            "Probation" => "warning",
+            "Full Color" => "success",
+            "FullColor" => "success",
+            "Rockets" => "danger",
             _ => "secondary"
         };
     }

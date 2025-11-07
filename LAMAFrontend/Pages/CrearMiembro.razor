@@ -115,8 +115,11 @@
                             <label class="form-label">Rango *</label>
                             <InputSelect class="form-select" @bind-Value="nuevoMiembro.Rango">
                                 <option value="">Seleccione...</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Standard">Standard</option>
+                                <option value="Prospect">Prospect</option>
+                                <option value="Hangaround">Hangaround</option>
+                                <option value="Probation">Probation</option>
+                                <option value="Full Color">Full Color</option>
+                                <option value="Rockets">Rockets</option>
                             </InputSelect>
                             <ValidationMessage For="@(() => nuevoMiembro.Rango)" />
                         </div>
